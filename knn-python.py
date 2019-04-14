@@ -1,8 +1,8 @@
 from statistics import mean,stdev
 from math import sqrt
 
-import matplotlib.pyplot as plt
-import numpy as np
+#import matplotlib.pyplot as plt
+#import numpy as np
 
 def lecture_dataset() :
     mon_fichier = open("iris.data", "r")
@@ -29,7 +29,6 @@ def lecture_dataset() :
 
     return data_set
 
-
 def centrer_reduire_data(data_set):
     data_set_centre_reduit= data_set.copy()
     moy = []
@@ -46,14 +45,12 @@ def centrer_reduire_data(data_set):
 
     return data_set_centre_reduit, moy,ecart_type
 
-
 def centrer_reduire_test(data_test,moyenne,ecart_type):
     data_test_centre_reduit = data_test.copy()
     for i in range(len(data_test)):
         data_test_centre_reduit[i] = (data_test[i] -moyenne[i])/ecart_type[i]
 
     return data_test_centre_reduit
-
 
 def calcul_distance(data_set,data_test):
     data_set_distance = data_set.copy()
@@ -74,6 +71,20 @@ def trier_distance(data_set):
     data_set_distance_triee.sort(key=takeSixth)
     return data_set_distance_triee
 
+def prediction_class(data_set_triee,k):
+    top_k_iris = []
+    for i in range(k):
+        top_k_iris.append(data_set_triee[i][4])
+
+    count_iris_apparition = []
+    for i in range(len(top_k_iris)):
+        count_iris_apparition.append(top_k_iris.count(top_k_iris[i]))
+
+    return top_k_iris[count_iris_apparition.index(max(count_iris_apparition))]
+
+
+k=5
+
 data_set = lecture_dataset()
 data_set_centre_reduit,moyenne,ecart_type = centrer_reduire_data(data_set)
 
@@ -84,6 +95,8 @@ data_set_distance = calcul_distance(data_set_centre_reduit,data_test_centre_redu
 
 data_set_distance_triee =trier_distance(data_set_distance)
 
+class_prediction = prediction_class(data_set_distance_triee,k)
+print(class_prediction)
 
 # uncomment for use of matplotlib
 #test =[]
