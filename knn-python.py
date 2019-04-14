@@ -82,20 +82,25 @@ def prediction_class(data_set_triee,k):
 
     return top_k_iris[count_iris_apparition.index(max(count_iris_apparition))]
 
+def knn(data_set,data_test,k):
+
+    data_set_centre_reduit,moyenne,ecart_type = centrer_reduire_data(data_set)
+
+    data_test_centre_reduit = centrer_reduire_test(data_test,moyenne,ecart_type)
+
+    data_set_distance = calcul_distance(data_set_centre_reduit,data_test_centre_reduit)
+
+    data_set_distance_triee =trier_distance(data_set_distance)
+
+    class_prediction = prediction_class(data_set_distance_triee,k)
+
+    return class_prediction
 
 k=5
-
 data_set = lecture_dataset()
-data_set_centre_reduit,moyenne,ecart_type = centrer_reduire_data(data_set)
-
 data_test = [6.5,3.4,5,2]
-data_test_centre_reduit = centrer_reduire_test(data_test,moyenne,ecart_type)
 
-data_set_distance = calcul_distance(data_set_centre_reduit,data_test_centre_reduit)
-
-data_set_distance_triee =trier_distance(data_set_distance)
-
-class_prediction = prediction_class(data_set_distance_triee,k)
+class_prediction = knn(data_set,data_test,k)
 print(class_prediction)
 
 # uncomment for use of matplotlib
