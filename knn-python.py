@@ -1,6 +1,12 @@
+# Application de l'algorithme KNN au dataset Iris
+# Fait par Matthieu LOUF et Steve MAHOT 
+
+#------------ IMPORTATION MODULES -------------#
 from statistics import mean,stdev
 from math import sqrt
 import numpy #pour utilisation de la loi normale
+
+#------------ DEFINITION FONCTIONS -------------#
 
 #affiche de la matrice de confusion
 def display_confusion(tab):
