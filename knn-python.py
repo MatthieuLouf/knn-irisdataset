@@ -1,10 +1,13 @@
 # Application de l'algorithme KNN au dataset Iris
 # Fait par Matthieu LOUF et Steve MAHOT 
 
-#------------ IMPORTATION MODULES -------------#
+#------------ IMPORTATION MODULES --------------#
 from statistics import mean,stdev
 from math import sqrt
 import numpy #pour utilisation de la loi normale
+
+#-------- INSTALLATION DU MODULE NUMPY ---------#
+# python -m pip install --user numpy
 
 #------------ DEFINITION FONCTIONS -------------#
 
