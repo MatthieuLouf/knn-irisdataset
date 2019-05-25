@@ -1,9 +1,10 @@
-# Application de l'algorithme KNN au dataset Iris
+# Application de l'algorithme KNN pour le challenge de classification
 # Fait par Matthieu LOUF et Steve MAHOT 
 
 #------------ IMPORTATION MODULES --------------#
 from statistics import mean,stdev
 from math import sqrt
+import os
 import numpy #pour utilisation de la loi normale
 
 #-------- INSTALLATION DU MODULE NUMPY ---------#
@@ -11,18 +12,9 @@ import numpy #pour utilisation de la loi normale
 
 #------------ DEFINITION FONCTIONS -------------#
 
-#affiche de la matrice de confusion
-def display_confusion(tab):
-
-    tab_noms =['Iris-setosa','Iris-versicolor','Iris-virginica']
-    print('Classes          \ prédites : setosa  versicolor  virginica')
-    print("         réelles  \ ")
-    for i in range(len(tab)): 
-        print("       ",tab_noms[i], "          ",tab[i][0], "      ",tab[i][1], "        ",tab[i][2])
-
 #lecture du data set des iris fourni
-def lecture_dataset() :
-    mon_fichier = open("iris.data", "r")
+def lecture_dataset(nomFichier) :
+    mon_fichier = open(nomFichier, "r")
     contenu = mon_fichier.readline()
     data_set = []
     count =0
@@ -44,6 +36,8 @@ def lecture_dataset() :
         contenu = mon_fichier.readline()
         count+=1
 
+    while data_set.count([''])>0:
+        data_set.remove([''])
     return data_set
 
 #modification des 4 premières colonnes du data set pour centrer et réduire les valeurs
@@ -149,18 +143,24 @@ def matrice_confusion(data_set,k, N):
 #------------ DEBUT PROGRAMME -------------#
  
 k=5 #nombre de plus proches voisins à sélectionner
-data_set = lecture_dataset() #lecture du data_set
+data_set = lecture_dataset("training.csv") #lecture du data_set
+#print(data_set)
 
-data_test = [6.5,3.4,5,2] #création d'une donnée test
-print("Soit la donnée test :", data_test )
+data_test = lecture_dataset("predict.csv") #création d'une donnée test
+#print(data_test)
 
-class_prediction = knn(data_set,data_test,k) #prédiction de la class de la donnée test
-print("\nLa classe prédite avec k=",k," est :",class_prediction)
- 
-N = 100 #nombre de valeurs à générer pour la matrice de confusion
-confusion_generee = matrice_confusion(data_set,k,N)
-print("\nLa matrice de confusion avec k=",k,"en générant",N,"valeurs :\n")
+nomFichier = "MahotLouf.txt"
+try :
+    os.remove("MahotLouf.txt")
+except:
+    print("Création du fichier résultat")
+fichier = open(nomFichier, "a")
 
-display_confusion(confusion_generee)
+for i in range(len(data_test)):
+    class_prediction = knn(data_set,data_test[i],k) #prédiction de la class de la donnée test
+    #print("\nLa classe prédite avec k=",k," est :",class_prediction)
+    fichier.write(class_prediction+"\n")
 
-print("\n")
+fichier.close()
+
+print("\nPredictions effectuées dans le fichier : " ,nomFichier,"\n")
